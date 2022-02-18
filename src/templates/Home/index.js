@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 import { mapData } from '../../api/map-data';
 import dadosJson from '../../api/dados.json';
+import config from '../../config';
 
 import { Heading } from '../../components/Heading';
 import { GridTwoColumn } from '../../components/GridTwoColumn';
@@ -18,18 +19,17 @@ import { Loading } from '../Loading';
 
 function Home() {
   const [data, setData] = useState([]);
-  const useLocation = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
-    const pathname = useLocation.pathname.replace(/[^a-z0-9-_]/gi, '');
-    const slug = pathname ? pathname : 'lading-page';
+    const pathname = location.pathname.replace(/[^a-z0-9-_]/gi, '');
+    const slug = pathname ? pathname : config.defaultSlug;
 
     const load = () => {
       try {
-        // const data = await fetch('http://localhost:3000/api/v1/home');
+        // const data = await fetch(config.url + slug);
         // const json = await data.json();
         const pageData = mapData(dadosJson);
-
         // new Promise((r) => {
         //   return setTimeout(() => {
         //     console.log(pageData[0]);
@@ -39,12 +39,25 @@ function Home() {
         // });
         setData(pageData[0]);
       } catch (e) {
+        console.log(e);
         setData(undefined);
       }
     };
 
     load();
   }, []);
+
+  useEffect(() => {
+    if (data === undefined) {
+      document.title = `Página não encontrada | ${config.siteName}`;
+    }
+    if (data && !data.slug) {
+      document.title = `Carregando... | ${config.siteName}`;
+    }
+    if (data && data.title) {
+      document.title = `${data.title} | ${config.siteName}`;
+    }
+  }, [data]);
 
   if (data === undefined) {
     return <PageNotFound />;

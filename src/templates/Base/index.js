@@ -6,7 +6,6 @@ import { Footer } from '../../components/Footer';
 import { GoTop } from '../../components/GoTop';
 
 export const Base = ({ links, logoData, footerHtml, children }) => {
-  console.log(logoData);
   return (
     <>
       <Menu links={links} logoData={logoData} />
