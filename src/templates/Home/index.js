@@ -1,29 +1,26 @@
 import { useEffect, useState } from 'react';
-import * as Styled from './styles';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 import { mapData } from '../../api/map-data';
 import dadosJson from '../../api/dados.json';
 import config from '../../config';
 
-import { Heading } from '../../components/Heading';
 import { GridTwoColumn } from '../../components/GridTwoColumn';
 import { GridContent } from '../../components/GridContent';
 import { GridText } from '../../components/GridText';
 import { GridImage } from '../../components/GridImage';
 
-import mockBase from '../Base/mock';
 import { Base } from '../Base';
 import { PageNotFound } from '../PageNotFound';
 import { Loading } from '../Loading';
 
 function Home() {
   const [data, setData] = useState([]);
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
-    const pathname = location.pathname.replace(/[^a-z0-9-_]/gi, '');
-    const slug = pathname ? pathname : config.defaultSlug;
+    // const pathname = location.pathname.replace(/[^a-z0-9-_]/gi, '');
+    // const slug = pathname ? pathname : config.defaultSlug;
 
     const load = () => {
       try {
@@ -95,6 +92,7 @@ function Home() {
         if (component === 'section.section-grid-image') {
           return <GridImage key={key} {...section} />;
         }
+        return <h1>ola</h1>;
       })}
     </Base>
   );
